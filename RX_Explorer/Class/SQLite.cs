@@ -63,6 +63,7 @@ namespace RX_Explorer.Class
         {
             string Command = "Create Table If Not Exists SearchHistory (SearchText Text Not Null, Primary Key (SearchText));"
                            + "Create Table If Not Exists QuickStart (Name Text Not Null, FullPath Text Not Null Collate NoCase, Protocal Text Not Null, Type Text Not Null, Primary Key (Name,FullPath,Protocal,Type));"
+                           + "Create Table If Not Exists QuickAccess (Name Text Not Null, FullPath Text Not Null Collate NoCase,Primary Key (FullPath));"
                            + "Create Table If Not Exists Library (Path Text Not Null Collate NoCase, Type Text Not Null, Primary Key (Path));"
                            + "Create Table If Not Exists PathHistory (Path Text Not Null Collate NoCase, Primary Key (Path));"
                            + "Create Table If Not Exists BackgroundPicture (FileName Text Not Null, Primary Key (FileName));"
@@ -746,6 +747,65 @@ namespace RX_Explorer.Class
                 }
             }
         }
+        /// <summary>
+        /// 保存快速启动栏内的信息
+        /// </summary>
+        /// <param name="Name">显示标题</param>
+        /// <param name="FullPath">图标所在的路径</param>
+        /// <param name="Protocal">使用的协议</param>
+        /// <param name="Type">快速启动类型</param>
+        /// <returns></returns>
+        public async Task AddQuickAccessAsync(string Name, string FullPath)
+        {
+            using (SqliteCommand Command = new SqliteCommand("Insert Or Ignore Into QuickAccess Values (@Name,@FullPath)", Connection))
+            {
+                Command.Parameters.AddWithValue("@Name", Name);
+                Command.Parameters.AddWithValue("@FullPath", FullPath);
+                await Command.ExecuteNonQueryAsync().ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        /// 删除快速启动项的内容
+        /// </summary>
+        /// <param name="Item">要删除的项</param>
+        /// <returns></returns>
+        public async Task DeleteQuickAccessAsync(string FullPath)
+        {
+            
+            using (SqliteCommand Command = new SqliteCommand("Delete From QuickStart Where FullPath = @FullPath ", Connection))
+            {
+                Command.Parameters.AddWithValue("@FullPath", FullPath);
+                await Command.ExecuteNonQueryAsync().ConfigureAwait(false);
+            }
+          
+        }
+
+        /// <summary>
+        /// 获取所有快速启动项
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<Tuple<string, string>>> GetAllQuickAccessAsync()
+        {
+            List<Tuple<string, string>> Result = new List<Tuple<string, string>>();
+          
+
+            using (SqliteCommand Command = new SqliteCommand("Select * From QuickAccess", Connection))
+            using (SqliteDataReader Reader = await Command.ExecuteReaderAsync().ConfigureAwait(true))
+            {
+                while (Reader.Read())
+                {
+                   Result.Add(new Tuple<string, string>(Reader[0].ToString(),Reader[1].ToString()));
+                  
+                }
+            }
+
+            
+
+            return Result;
+        }
+
+
 
         /// <summary>
         /// 清空特定的数据表

@@ -28,7 +28,7 @@
     </Page.Resources>
 
     <Grid>
-        <muxc:TabView TabWidthMode="Equal"
+        <muxc:TabView TabWidthMode="Equal" Margin="0,-15,0,0"
                       Name="TabViewControl"
                       x:FieldModifier="public"
                       VerticalAlignment="Stretch"

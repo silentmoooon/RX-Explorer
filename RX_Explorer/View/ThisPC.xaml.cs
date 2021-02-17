@@ -44,13 +44,13 @@ namespace RX_Explorer
         {
             if (ApplicationData.Current.LocalSettings.Values["IsLeftAreaOpen"] is bool Enable)
             {
-                LeftSideCol.Width = Enable ? new GridLength(2.5, GridUnitType.Star) : new GridLength(0);
+                LeftSideCol.Width = Enable ? new GridLength(0) : new GridLength(0);
             }
             else
             {
                 ApplicationData.Current.LocalSettings.Values["IsLeftAreaOpen"] = true;
 
-                LeftSideCol.Width = new GridLength(2.5, GridUnitType.Star);
+                LeftSideCol.Width = new GridLength(0);
             }
         }
 

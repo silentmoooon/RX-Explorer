@@ -1405,22 +1405,30 @@
         </Canvas>
         <StackPanel Grid.Row="1"
                     VerticalAlignment="Bottom">
-            <TextBlock x:Name="StatusTips"
-                       x:FieldModifier="public"
-                       FontSize="14"
-                       Margin="10,0,0,0"
-                       TextTrimming="CharacterEllipsis"
-                       VerticalAlignment="Center" />
-            <Border Height="3"
+            <Grid>
+                <Grid.RowDefinitions />
+                
+                <Border Height="3"
                     HorizontalAlignment="Stretch"
                     x:FieldModifier="public"
                     x:Name="FocusIndicator"/>
-            <CommandBar IsOpen="False"
+                <CommandBar IsOpen="False" Grid.Row="0"
                         ClosedDisplayMode="Minimal"
                         DefaultLabelPosition="Right"
                         Name="BottomCommandBar"
                         Opening="BottomCommandBar_Opening"
                         Background="{StaticResource ElementAcrylicBrush}" />
+                  
+                
+                <TextBlock x:Name="StatusTips" Grid.Row="0" MaxWidth="200" 
+                       x:FieldModifier="public"
+                       FontSize="14"
+                       Margin="10,0,0,0"
+                       TextTrimming="CharacterEllipsis"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Center" />
+            </Grid>
+            
         </StackPanel>
     </Grid>
 </Page>

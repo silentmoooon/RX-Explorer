@@ -1877,6 +1877,14 @@ Illegal characters include \ / : * ? " &lt; &gt; |</source>
           <source>ThisPC</source>
           <target state="translated">这台电脑</target>
         </trans-unit>
+        <trans-unit id="MainPageShowSettingsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>ThisPC</source>
+          <target state="translated">设置</target>
+        </trans-unit>
+        <trans-unit id="MainPageHideSettingsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>ThisPC</source>
+          <target state="translated">返回</target>
+        </trans-unit>
         <trans-unit id="Operate_Text_BluetoothShare" translate="yes" xml:space="preserve">
           <source>Bluetooth</source>
           <target state="translated">蓝牙</target>

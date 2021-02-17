@@ -1242,7 +1242,7 @@ namespace RX_Explorer
             {
                 if ((Tab.Content as Frame)?.Content is ThisPC PC)
                 {
-                    PC.LeftSideCol.Width = OpenLeftArea.IsOn ? new GridLength(2.5, GridUnitType.Star) : new GridLength(0);
+                    PC.LeftSideCol.Width = OpenLeftArea.IsOn ? new GridLength(0) : new GridLength(0);
                 }
             }
 

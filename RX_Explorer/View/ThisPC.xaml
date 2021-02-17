@@ -178,12 +178,12 @@
           x:FieldModifier="public"
           PointerPressed="Grid_PointerPressed">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition MaxWidth="300"
+            <ColumnDefinition  Width="0"
                               x:Name="LeftSideCol"
                               x:FieldModifier="public" />
-            <ColumnDefinition Width="5*" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Grid Margin="10,4,10,10">
+        <Grid Margin="10,4,10,10" Width="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="50" />
                 <RowDefinition Height="*" />

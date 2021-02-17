@@ -5856,6 +5856,7 @@ namespace RX_Explorer
 
         private async void BottomCommandBar_Opening(object sender, object e)
         {
+         
             BottomCommandBar.PrimaryCommands.Clear();
             BottomCommandBar.SecondaryCommands.Clear();
 

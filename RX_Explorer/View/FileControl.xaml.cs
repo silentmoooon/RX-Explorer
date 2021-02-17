@@ -135,7 +135,17 @@ namespace RX_Explorer
             EverythingTip.Subtitle = Globalization.GetString("EverythingQuestionSubtitle");
 
             BladePointerPressedEventHandler = new PointerEventHandler(Blade_PointerPressed);
-
+            TreeViewNode RootNode = new TreeViewNode
+            {
+                Content = new TreeViewItem(),
+                IsExpanded = true 
+            };
+            RootNode.Children.Add(new TreeViewNode
+            {
+                Content = new TreeViewItem(),
+                IsExpanded = false
+            });
+            QuickAccessTree.RootNodes.Add(RootNode);
             Loaded += FileControl_Loaded;
         }
 
@@ -495,6 +505,13 @@ namespace RX_Explorer
             {
                 await CurrentPresenter.DisplayItemsInFolder(Content.Path).ConfigureAwait(false);
             }
+        }
+        private async void QuickAccessTree_ItemInvoked(TreeView sender, TreeViewItemInvokedEventArgs args)
+        {
+            //if (args.InvokedItem is TreeViewNode Node && Node.Content is TreeViewNodeContent Content && CurrentPresenter != null)
+            //{
+            //    await CurrentPresenter.DisplayItemsInFolder(Content.Path).ConfigureAwait(false);
+            //}
         }
 
         private async void FolderDelete_Click(object sender, RoutedEventArgs e)

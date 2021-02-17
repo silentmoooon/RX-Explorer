@@ -20,6 +20,7 @@ using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.System;
 using Windows.System.Profile;
+using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Core.Preview;
 using Windows.UI.Notifications;
@@ -49,8 +50,22 @@ namespace RX_Explorer
         public MainPage(object Parameter)
         {
             InitializeComponent();
+            var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
+            var appTitleBar = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TitleBar;
+            coreTitleBar.ExtendViewIntoTitleBar = true;
+            MainBlankColumn.Width = new GridLength(coreTitleBar.SystemOverlayRightInset);
+            //appTitleBar.ButtonBackgroundColor = Colors.Transparent;
+            //appTitleBar.ButtonHoverBackgroundColor = Colors.LightSteelBlue;
+            coreTitleBar.LayoutMetricsChanged += CoreTitleBar_LayoutMetricsChanged;
             ThisPage = this;
-            Window.Current.SetTitleBar(TitleBar);
+            
+
+
+
+            Window.Current.SetTitleBar(tb);
+
+            
+
             Application.Current.FocusVisualKind = FocusVisualKind.Reveal;
             Loaded += MainPage_Loaded;
             Loaded += MainPage_Loaded1;
@@ -58,13 +73,13 @@ namespace RX_Explorer
             Application.Current.EnteredBackground += Current_EnteredBackground;
             Application.Current.LeavingBackground += Current_LeavingBackground;
             SystemNavigationManagerPreview.GetForCurrentView().CloseRequested += MainPage_CloseRequested;
-            SystemNavigationManager.GetForCurrentView().BackRequested += MainPage_BackRequested;
+            //SystemNavigationManager.GetForCurrentView().BackRequested += MainPage_BackRequested;
 
             BackgroundController.Current.SetAcrylicEffectPresenter(CompositorAcrylicBackground);
 
             if (Package.Current.IsDevelopmentMode)
             {
-                AppName.Text += " (Development Mode)";
+                //AppName.Text += " (Development Mode)";
             }
 
             if (Parameter is Tuple<Rect, string[]> Paras)
@@ -77,6 +92,13 @@ namespace RX_Explorer
                     EntranceEffectProvider.PrepareEntranceEffect();
                 }
             }
+        }
+        private void CoreTitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
+        {
+
+            MainBlankColumn.Width = new GridLength(sender.SystemOverlayRightInset);
+
+
         }
 
         private async void Current_DataChanged(ApplicationData sender, object args)
@@ -569,16 +591,7 @@ namespace RX_Explorer
         {
             try
             {
-                if (args.IsSettingsInvoked)
-                {
-                    NavView.IsBackEnabled = true;
-
-                    if (FindName(nameof(SettingControl)) is SettingControl Control)
-                    {
-                        await Control.Show().ConfigureAwait(true);
-                    }
-                }
-                else
+               
                 {
                     if (args.InvokedItem.ToString() == Globalization.GetString("MainPage_PageDictionary_ThisPC_Label"))
                     {
@@ -586,8 +599,11 @@ namespace RX_Explorer
 
                         if (SettingControl != null)
                         {
+                            Show_Settings.Visibility = Visibility.Visible;
+                            Hide_Settings.Visibility = Visibility.Collapsed;
                             await SettingControl.Hide().ConfigureAwait(true);
                         }
+                      
 
                         Nav.Navigate(typeof(TabViewContainer), null, new DrillInNavigationTransitionInfo());
                     }
@@ -597,6 +613,8 @@ namespace RX_Explorer
 
                         if (SettingControl != null)
                         {
+                            Show_Settings.Visibility = Visibility.Visible;
+                            Hide_Settings.Visibility = Visibility.Collapsed;
                             await SettingControl.Hide().ConfigureAwait(true);
                         }
 
@@ -644,7 +662,8 @@ namespace RX_Explorer
                     {
                         Item.IsSelected = true;
                     }
-
+                    Show_Settings.Visibility = Visibility.Visible;
+                    Hide_Settings.Visibility = Visibility.Collapsed;
                     await SettingControl.Hide().ConfigureAwait(false);
                 }
                 else
@@ -658,6 +677,30 @@ namespace RX_Explorer
             catch (Exception ex)
             {
                 LogTracer.Log(ex, "An error was threw when navigate back");
+            }
+        }
+
+        private async void Show_Settings_Click(object sender, RoutedEventArgs e)
+        {
+
+
+            if (FindName(nameof(SettingControl)) is SettingControl Control)
+            {
+                Show_Settings.Visibility = Visibility.Collapsed;
+                Hide_Settings.Visibility = Visibility.Visible;
+                await Control.Show().ConfigureAwait(true);
+            }
+        }
+
+        private async void Hide_Settings_Click(object sender, RoutedEventArgs e)
+        {
+
+
+            if (SettingControl != null)
+            {
+                Show_Settings.Visibility = Visibility.Visible;
+                Hide_Settings.Visibility = Visibility.Collapsed;
+                await SettingControl.Hide().ConfigureAwait(true);
             }
         }
     }
