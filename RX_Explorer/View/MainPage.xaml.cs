@@ -53,9 +53,10 @@ namespace RX_Explorer
             var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             var appTitleBar = Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().TitleBar;
             coreTitleBar.ExtendViewIntoTitleBar = true;
-            MainBlankColumn.Width = new GridLength(coreTitleBar.SystemOverlayRightInset);
-            //appTitleBar.ButtonBackgroundColor = Colors.Transparent;
-            //appTitleBar.ButtonHoverBackgroundColor = Colors.LightSteelBlue;
+             
+            Show_Settings.Margin = new Thickness(0,-10,coreTitleBar.SystemOverlayRightInset,0);
+            Hide_Settings.Margin = new Thickness(0, -10, coreTitleBar.SystemOverlayRightInset, 0);
+            
             coreTitleBar.LayoutMetricsChanged += CoreTitleBar_LayoutMetricsChanged;
             ThisPage = this;
             
@@ -79,7 +80,7 @@ namespace RX_Explorer
 
             if (Package.Current.IsDevelopmentMode)
             {
-                //AppName.Text += " (Development Mode)";
+                AppName.Text += " (Development Mode)";
             }
 
             if (Parameter is Tuple<Rect, string[]> Paras)
@@ -95,8 +96,9 @@ namespace RX_Explorer
         }
         private void CoreTitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
         {
-
-            MainBlankColumn.Width = new GridLength(sender.SystemOverlayRightInset);
+            Show_Settings.Margin = new Thickness(0, -10, sender.SystemOverlayRightInset, 0);
+            Hide_Settings.Margin = new Thickness(0, -10, sender.SystemOverlayRightInset, 0);
+           
 
 
         }
